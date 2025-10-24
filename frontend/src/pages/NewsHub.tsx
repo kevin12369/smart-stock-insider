@@ -24,13 +24,11 @@ import {
   HeartOutlined,
   ShareAltOutlined,
   BellOutlined,
-  FilterOutlined,
-  TrendingUpOutlined,
+  RiseOutlined,
   FireOutlined,
   ClockCircleOutlined,
   ThunderboltOutlined
 } from '@ant-design/icons'
-import apiService from '../services/api'
 
 const { Title, Text, Paragraph } = Typography
 const { Option } = Select
@@ -78,8 +76,7 @@ const NewsHub: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null)
   const [newsDetailVisible, setNewsDetailVisible] = useState(false)
-  const [filterVisible, setFilterVisible] = useState(false)
-
+  
   useEffect(() => {
     loadNews()
     loadSources()
@@ -282,8 +279,8 @@ const NewsHub: React.FC = () => {
 
   const getNewsAvatar = (category: string) => {
     const iconMap: Record<string, React.ReactNode> = {
-      '财经': <TrendingUpOutlined />,
-      '股市': <TrendingUpOutlined />,
+      '财经': <RiseOutlined />,
+      '股市': <RiseOutlined />,
       '政策': <ThunderboltOutlined />,
       '公司': <FireOutlined />,
       '热门话题': <FireOutlined />
@@ -387,13 +384,7 @@ const NewsHub: React.FC = () => {
               >
                 刷新
               </Button>
-              <Button
-                icon={<FilterOutlined />}
-                onClick={() => setFilterVisible(true)}
-              >
-                高级筛选
-              </Button>
-            </Space>
+                          </Space>
           </Col>
         </Row>
       </Card>
@@ -497,7 +488,7 @@ const NewsHub: React.FC = () => {
                       </Space>
                       <div>
                         {item.tags.map(tag => (
-                          <Tag key={tag} size="small" style={{ margin: '2px 4px 2px 0' }}>
+                          <Tag key={tag} style={{ margin: '2px 4px 2px 0' }}>
                             {tag}
                           </Tag>
                         ))}

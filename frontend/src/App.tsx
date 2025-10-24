@@ -67,7 +67,6 @@ const menuItems = [
 // 内部组件：Main App Content
 const MainContent: React.FC = () => {
   const [loading, setLoading] = useState(true)
-  const [appInfo, setAppInfo] = useState({ name: '智股通', version: '1.0.0' })
 
   useEffect(() => {
     const initApp = async () => {
@@ -75,8 +74,6 @@ const MainContent: React.FC = () => {
         // 预加载关键路由
         preloadCriticalRoutes()
 
-        // 这里可以调用后端API获取应用信息
-        setAppInfo({ name: '智股通', version: '1.0.0' })
         message.success('欢迎使用智股通 - 智能量化投研平台')
       } catch (error) {
         console.error('Failed to initialize app:', error)

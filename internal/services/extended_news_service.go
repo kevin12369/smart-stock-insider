@@ -245,7 +245,7 @@ func (ens *ExtendedNewsService) FetchExtendedNews(ctx context.Context, req *mode
 	// 获取基础新闻（东方财富、同花顺）
 	baseResult, err := ens.NewsService.FetchNews(ctx, req)
 	if err != nil {
-		ens.logger.Printf("获取基础新闻失败: %v", err)
+		ens.logger.Info("获取基础新闻失败: %v", err)
 		baseResult = &models.NewsAnalysisResult{
 			TotalNews: 0,
 		}
@@ -254,15 +254,25 @@ func (ens *ExtendedNewsService) FetchExtendedNews(ctx context.Context, req *mode
 	// 获取扩展新闻
 	extendedNews, err := ens.fetchFromAdditionalSources(ctx, req)
 	if err != nil {
-		ens.logger.Printf("获取扩展新闻失败: %v", err)
+		ens.logger.Info("获取扩展新闻失败: %v", err)
 		extendedNews = []*models.NewsItem{}
 	}
 
 	// 合并所有新闻
-	allNews := append(baseResult.TopHeadlines, extendedNews...)
+	allNews := make([]models.NewsItem, 0, len(baseResult.TopHeadlines)+len(extendedNews))
+	allNews = append(allNews, baseResult.TopHeadlines...)
+	for _, item := range extendedNews {
+		if item != nil {
+			allNews = append(allNews, *item)
+		}
+	}
 
 	// 应用聚合规则
-	processedNews := ens.applyAggregationRules(allNews)
+	allNewsPtrs := make([]*models.NewsItem, len(allNews))
+	for i := range allNews {
+		allNewsPtrs[i] = &allNews[i]
+	}
+	processedNews := ens.applyAggregationRules(allNewsPtrs)
 
 	// 去重和排序
 	finalNews := ens.deduplicateAndSort(processedNews)
@@ -426,11 +436,11 @@ func (ens *ExtendedNewsService) parseSinaResponse(responseBody []byte, stockCode
 	}
 
 	var news []*models.NewsItem
-	for i, item := range data.List {
+	for _, item := range data.List {
 		// 解析时间
 		publishTime, err := time.Parse("2006-01-02 15:04:05", item.Time)
 		if err != nil {
-			publishTime = time.Now().Add(-time.Duration(i) * time.Minute)
+			publishTime = time.Now().Add(-time.Minute)
 		}
 
 		// 提取标签
@@ -528,7 +538,7 @@ func (ens *ExtendedNewsService) parseTencentResponse(responseBody []byte, stockC
 	}
 
 	var news []*models.NewsItem
-	for i, item := range response.Data.List {
+	for _, item := range response.Data.List {
 		newsItem := &models.NewsItem{
 			ID:          fmt.Sprintf("tencent_%s", item.ID),
 			Title:       item.Title,
@@ -610,7 +620,7 @@ func (ens *ExtendedNewsService) parseXueqiuResponse(responseBody []byte, stockCo
 	}
 
 	var news []*models.NewsItem
-	for i, item := range response.Data.List {
+	for _, item := range response.Data.List {
 		// 转换雪球特有格式为通用新闻格式
 		newsItem := &models.NewsItem{
 			ID:          fmt.Sprintf("xueqiu_%s", item.ID),
@@ -691,7 +701,7 @@ func (ens *ExtendedNewsService) parseHexunResponse(responseBody []byte, stockCod
 	}
 
 	var news []*models.NewsItem
-	for i, item := range response.Data.List {
+	for _, item := range response.Data.List {
 		newsItem := &models.NewsItem{
 			ID:          fmt.Sprintf("hexun_%s", item.ID),
 			Title:       item.Title,

@@ -15,11 +15,7 @@ import {
   Select,
   message,
   Tabs,
-  Statistic,
-  Progress,
-  List,
-  Avatar,
-  Divider
+  Statistic
 } from 'antd'
 import {
   PlusOutlined,
@@ -30,12 +26,9 @@ import {
   DollarOutlined,
   RiseOutlined,
   FallOutlined,
-  LineChartOutlined,
-  PieChartOutlined,
-  ExclamationCircleOutlined
+  LineChartOutlined
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
-import apiService from '../services/api'
 
 const { Title, Text } = Typography
 const { TabPane } = Tabs

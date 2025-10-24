@@ -175,28 +175,15 @@ func (eas *EnhancedAIService) AnalyzeWithMultiModels(ctx context.Context, req *A
 				StockCode: modelReq.StockCode,
 				Response:  `{"analysis":"简化实现"}`,
 			}
-			err = error(nil)
 			executionTime := time.Since(modelStartTime)
 
-			if err != nil {
-				mutex.Lock()
-				resultsChan <- ModelResult{
-					ModelName:      model,
-					ModelType:      "error",
-					Confidence:     0.0,
-					Response:       fmt.Sprintf("模型调用失败: %v", err),
-					ProcessingTime: executionTime,
-				}
-				mutex.Unlock()
-				return
-			}
-
+	
 			mutex.Lock()
 			resultsChan <- ModelResult{
 				ModelName:      model,
 				ModelType:      "success",
 				Confidence:     result.Confidence,
-				Response:       result.Content,
+				Response:       result.Response,
 				ProcessingTime: executionTime,
 			}
 			mutex.Unlock()

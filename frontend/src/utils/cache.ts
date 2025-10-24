@@ -15,7 +15,7 @@ interface CacheOptions {
 class APICache {
   private cache = new Map<string, CacheItem>()
   private maxSize = 100 // 最大缓存条目数
-  private cleanupInterval: NodeJS.Timeout
+  private cleanupInterval: number
 
   constructor() {
     // 定期清理过期缓存

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -122,7 +123,7 @@ func (na *NewsAggregator) matchesDuplicateRule(rule *models.NewsAggregationRule,
 
 	// 从规则条件中获取阈值
 	if val, exists := rule.Conditions["similarity_threshold"]; exists {
-		if parsed, err := parseFloat(val); err == nil {
+		if parsed, err := strconv.ParseFloat(val, 64); err == nil {
 			threshold = parsed
 		}
 	}
@@ -505,13 +506,13 @@ func (na *NewsAggregator) identifyTopicsInWindow(news []*models.NewsItem, rule *
 	// 筛选出达到最小文章数的聚类
 	minArticles := 3
 	if val, exists := rule.Conditions["min_articles"]; exists {
-		if parsed, err := parseInt(val); err == nil {
+		if parsed, err := strconv.Atoi(val); err == nil {
 			minArticles = parsed
 		}
 	}
 
 	var topics [][]*models.NewsItem
-	for keyword, cluster := range keywordClusters {
+	for _, cluster := range keywordClusters {
 		if len(cluster) >= minArticles {
 			topics = append(topics, cluster)
 		}

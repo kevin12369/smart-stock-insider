@@ -15,14 +15,11 @@ import {
   Typography,
   Tag,
   Tabs,
-  Divider,
-  Popconfirm
+  Divider
 } from 'antd'
 import {
   SettingOutlined,
-  PlusOutlined,
   EditOutlined,
-  DeleteOutlined,
   SaveOutlined,
   ReloadOutlined,
   CalculatorOutlined

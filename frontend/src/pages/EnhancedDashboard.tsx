@@ -9,7 +9,6 @@ import {
   Button,
   Space,
   Typography,
-  Progress,
   Avatar,
   Alert,
   Tabs,
@@ -19,9 +18,6 @@ import {
 } from 'antd'
 import {
   DashboardOutlined,
-  TrophyOutlined,
-  RiseOutlined,
-  FallOutlined,
   LineChartOutlined,
   PieChartOutlined,
   BellOutlined,
@@ -29,31 +25,16 @@ import {
   EyeOutlined,
   ReloadOutlined,
   ArrowUpOutlined,
-  ArrowDownOutlined,
   FireOutlined,
-  ClockCircleOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 const { TabPane } = Tabs
-
-interface DashboardCard {
-  title: string
-  value: string | number
-  prefix?: React.ReactNode
-  suffix?: string
-  trend?: 'up' | 'down' | 'stable'
-  trendValue?: number
-  color?: string
-  icon?: React.ReactNode
-  onClick?: () => void
-}
 
 const EnhancedDashboard: React.FC = () => {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
 
   useEffect(() => {
@@ -63,16 +44,6 @@ const EnhancedDashboard: React.FC = () => {
 
     return () => clearInterval(timer)
   }, [])
-
-  // 模拟数据
-  const systemStats = {
-    status: '运行正常',
-    uptime: '15天 8小时',
-    totalStocks: 5234,
-    totalSignals: 15678,
-    dailyActiveUsers: 892,
-    apiCalls: 45678
-  }
 
   const portfolioOverview = {
     totalValue: 1250000,
@@ -391,7 +362,7 @@ const EnhancedDashboard: React.FC = () => {
 
         <Col xs={24} lg={8}>
           <Tabs defaultActiveKey="alerts">
-            <TabPane tab="活跃预警" key="alerts" badge={<Badge count={activeAlerts.length} />}>
+            <TabPane tab="活跃预警" key="alerts">
               <List
                 size="small"
                 dataSource={activeAlerts}
@@ -411,7 +382,7 @@ const EnhancedDashboard: React.FC = () => {
                           <Text strong style={{ fontSize: '14px' }}>
                             {alert.title}
                           </Text>
-                          <Tag color={getPriorityColor(alert.priority)} size="small">
+                          <Tag color={getPriorityColor(alert.priority)}>
                             {alert.priority === 'high' ? '高' : '中'}
                           </Tag>
                         </Space>
@@ -429,7 +400,7 @@ const EnhancedDashboard: React.FC = () => {
                 )}
               />
             </TabPane>
-            <TabPane tab="系统通知" key="notifications" badge={<Badge count={systemNotifications.filter(n => !n.read).length} />}>
+            <TabPane tab="系统通知" key="notifications">
               <List
                 size="small"
                 dataSource={systemNotifications}
@@ -515,12 +486,12 @@ const EnhancedDashboard: React.FC = () => {
                 title={
                   <Space>
                     <Text strong>{news.title}</Text>
-                    <Tag color={getImpactColor(news.impact)} size="small">
+                    <Tag color={getImpactColor(news.impact)} >
                       {news.impact === 'positive' ? '利好' :
                        news.impact === 'negative' ? '利空' : '中性'}
                     </Tag>
                     {news.priority === 'high' && (
-                      <Tag color="red" size="small">
+                      <Tag color="red" >
                         重要
                       </Tag>
                     )}
@@ -542,7 +513,7 @@ const EnhancedDashboard: React.FC = () => {
                     </Space>
                     <div style={{ marginTop: '4px' }}>
                       {news.tags.map(tag => (
-                        <Tag key={tag} size="small" style={{ margin: '2px 4px 2px 0' }}>
+                        <Tag key={tag} style={{ margin: '2px 4px 2px 0' }}>
                           {tag}
                         </Tag>
                       ))}

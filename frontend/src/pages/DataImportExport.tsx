@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Card,
   Row,
@@ -7,7 +7,6 @@ import {
   Button,
   Space,
   Input,
-  DatePicker,
   Select,
   Upload,
   message,
@@ -21,7 +20,8 @@ import {
   Alert,
   Statistic,
   List,
-  Tooltip
+  Tooltip,
+  DatePicker
 } from 'antd'
 import {
   ExportOutlined,
@@ -31,36 +31,16 @@ import {
   FileTextOutlined,
   DatabaseOutlined,
   CheckCircleOutlined,
-  ExclamationCircleOutlined,
-  SyncOutlined,
-  InfoCircleOutlined,
-  FolderOpenOutlined
+  ExclamationCircleOutlined
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import type { UploadFile } from 'antd/es/upload/interface'
-import dayjs, { Dayjs } from 'antd-picker-dayjs'
 import apiService from '../services/api'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 const { RangePicker } = DatePicker
 const { Option } = Select
 const { TextArea } = Input
-
-interface ExportRequest {
-  dataType: string
-  stockCodes: string
-  startDate: string
-  endDate: string
-  format: string
-  outputPath: string
-  includeHeaders: boolean
-}
-
-interface ImportRequest {
-  filePath: string
-  dataType: string
-  overwrite: boolean
-}
 
 interface ExportResult {
   success: boolean
@@ -621,7 +601,7 @@ const DataImportExportPage: React.FC = () => {
                 )}
               </div>
             ),
-            rowExpandable: record => record.errors && record.errors.length > 0
+            rowExpandable: record => Boolean(record.errors && record.errors.length > 0)
           }}
         />
       </Card>

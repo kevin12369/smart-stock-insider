@@ -15,37 +15,31 @@ import {
   Form,
   Input,
   Select,
-  InputNumber,
   TimePicker,
   message,
   Modal,
-  Divider,
   Tabs,
   Table,
-  Tooltip
+  Tooltip,
+  Avatar
 } from 'antd'
 import {
   BellOutlined,
   SettingOutlined,
   EyeOutlined,
   DeleteOutlined,
-  PlusOutlined,
   ReloadOutlined,
   SendOutlined,
   WifiOutlined,
   MobileOutlined,
   DesktopOutlined,
   NotificationOutlined,
-  ExclamationCircleOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined,
   ClockCircleOutlined
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
-import dayjs from 'dayjs'
-import apiService from '../services/api'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 const { TabPane } = Tabs
 const { Option } = Select
 const RangePicker = TimePicker.RangePicker

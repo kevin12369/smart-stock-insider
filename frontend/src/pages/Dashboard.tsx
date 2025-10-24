@@ -11,12 +11,9 @@ import {
   Input,
   message,
   Typography,
-  Progress,
   List,
   Avatar,
-  Alert,
-  Tabs,
-  Divider
+  Progress
 } from 'antd'
 import {
   SearchOutlined,
@@ -27,24 +24,13 @@ import {
   PlusOutlined,
   SettingOutlined,
   ImportOutlined,
-  DashboardOutlined,
-  TrophyOutlined,
-  RiseOutlined,
-  FallOutlined,
-  BellOutlined,
-  PieChartOutlined,
-  BarChartOutlined,
-  ThunderboltOutlined,
-  EyeOutlined
+  DashboardOutlined
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import type { ColumnsType } from 'antd/es/table'
 import apiService, { StockBasicInfo, TechnicalSignal } from '../services/api'
 
 const { Text } = Typography
-
-const { Text, Title } = Typography
-const { TabPane } = Tabs
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate()
@@ -60,53 +46,7 @@ const Dashboard: React.FC = () => {
     loadSignals()
   }, [])
 
-  // 模拟投资组合数据
-  const portfolioData = {
-    totalValue: 1000000,
-    totalReturn: 0.15,
-    dailyChange: 0.02,
-    activePositions: 8,
-    winningPositions: 5
-  }
-
-  // 模拟新闻数据
-  const latestNews = [
-    {
-      id: '1',
-      title: 'A股三大指数集体收涨',
-      source: '同花顺',
-      time: '2小时前',
-      category: 'market'
-    },
-    {
-      id: '2',
-      title: '新能源汽车板块表现强势',
-      source: '东方财富',
-      time: '3小时前',
-      category: 'sector'
-    }
-  ]
-
-  // 模拟推送数据
-  const recentPushes = [
-    {
-      id: '1',
-      type: 'alert',
-      title: '平安银行价格预警',
-      content: '突破16.50元',
-      time: '30分钟前',
-      read: true
-    },
-    {
-      id: '2',
-      type: 'news',
-      title: '重要财经新闻',
-      content: '央行发布货币政策报告',
-      time: '1小时前',
-      read: false
-    }
-  ]
-
+  
   const loadSystemInfo = async () => {
     try {
       const response = await apiService.getSystemInfo()

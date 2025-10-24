@@ -14,6 +14,56 @@ import (
 	"smart-stock-insider/internal/models"
 )
 
+// PushProvider 推送提供商
+type PushProvider struct {
+	ID         string                 `json:"id"`
+	Name       string                 `json:"name"`
+	Type       string                 `json:"type"`
+	Enabled    bool                   `json:"enabled"`
+	Config     map[string]interface{} `json:"config"`
+	Priority   int                    `json:"priority"`
+	RateLimit  int                    `json:"rate_limit"`
+}
+
+// PushTemplate 推送模板
+type PushTemplate struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Content  string `json:"content"`
+	Type     string `json:"type"`
+}
+
+// PushRule 推送规则
+type PushRule struct {
+	ID          string         `json:"id"`
+	Name        string         `json:"name"`
+	Enabled     bool           `json:"enabled"`
+	Triggers    []RuleTrigger  `json:"triggers"`
+	Conditions  []RuleCondition `json:"conditions"`
+	Actions     []RuleAction   `json:"actions"`
+}
+
+// RuleTrigger 规则触发器
+type RuleTrigger struct {
+	Type     string `json:"type"`
+	Value    string `json:"value"`
+	Operator string `json:"operator"`
+}
+
+// RuleCondition 规则条件
+type RuleCondition struct {
+	Field    string      `json:"field"`
+	Operator string      `json:"operator"`
+	Value    interface{} `json:"value"`
+}
+
+// RuleAction 规则动作
+type RuleAction struct {
+	Type     string `json:"type"`
+	Provider string `json:"provider"`
+	Template string `json:"template"`
+}
+
 // NewsPushService 新闻推送服务
 type NewsPushService struct {
 	dataService      *DataService
@@ -66,7 +116,7 @@ func NewNewsPushService(dataService *DataService) *NewsPushService {
 
 // StartPushService 启动推送服务
 func (nps *NewsPushService) StartPushService() error {
-	nps.logger.Info("启动新闻推送服务")
+	log.Printf("启动新闻推送服务")
 
 	// 初始化推送配置
 	if err := nps.initPushProviders(); err != nil {
@@ -97,7 +147,7 @@ func (nps *NewsPushService) StartPushService() error {
 	// 启动WebSocket连接管理
 	go nps.manageWebSocketConnections()
 
-	nps.logger.Info("新闻推送服务启动成功")
+	log.Printf("新闻推送服务启动成功")
 	return nil
 }
 
@@ -108,7 +158,7 @@ func (nps *NewsPushService) initPushProviders() error {
 			ID:       "websocket",
 			Name:     "WebSocket",
 			Type:     "websocket",
-			Config:    "{}",
+			Config:    map[string]interface{}{},
 			Enabled:  true,
 			Priority: 1,
 			RateLimit: 0, // 无限制
@@ -117,7 +167,7 @@ func (nps *NewsPushService) initPushProviders() error {
 			ID:       "sse",
 			Name:     "Server-Sent Events",
 			Type:     "sse",
-			Config:    "{}",
+			Config:    map[string]interface{}{},
 			Enabled:  true,
 			Priority: 2,
 			RateLimit: 1000, // 每分钟1000个事件
@@ -126,7 +176,10 @@ func (nps *NewsPushService) initPushProviders() error {
 			ID:       "apns",
 			Name:     "Apple Push Notification Service",
 			Type:     "push_notification",
-			Config:    "{\n				\"team_id\": \"your-team-id\",\n				\"key_id\": \"your-key-id\"\n			}",
+			Config: map[string]interface{}{
+				"team_id": "your-team-id",
+				"key_id": "your-key-id",
+			},
 			Enabled:  false, // 需要配置
 			Priority: 3,
 			RateLimit: 100,  // 每分钟100个推送
@@ -567,7 +620,7 @@ func (nps *NewsPushService) sendWebSocketPush(message *models.PushMessage, provi
 			}
 		}
 
-		nps.logger.Info("WebSocket推送成功，送达用户数: %d", successCount)
+		log.Printf("WebSocket推送成功，送达用户数: %d", successCount)
 	}
 
 	return nil
@@ -576,14 +629,14 @@ func (nps *NewsPushService) sendWebSocketPush(message *models.PushMessage, provi
 // sendSSEPush 发送Server-Sent Events推送
 func (nps *NewsPushService) sendSSEPush(message *models.PushMessage, provider *models.PushProvider) error {
 	// SSE推送实现
-	nps.logger.Info("发送SSE推送: %s", message.Title)
+	log.Printf("发送SSE推送: %s", message.Title)
 	return nil
 }
 
 // sendNotificationPush 发送推送通知
 func (nps *NewsPushService) sendNotificationPush(message *models.PushMessage, provider *models.PushProvider) error {
 	// APNs/FCM推送实现
-	nps.logger.Info("发送推送通知: %s", message.Title)
+	log.Printf("发送推送通知: %s", message.Title)
 	return nil
 }
 
@@ -615,7 +668,7 @@ func (nps *NewsPushService) processPushQueue() {
 				// 异步处理批次
 				go nps.processBatch(batch)
 
-				nps.logger.Info("处理推送队列，批次大小: %d", len(batch))
+				log.Printf("处理推送队列，批次大小: %d", len(batch))
 			}
 			nps.queue.mutex.Unlock()
 		}
@@ -699,7 +752,7 @@ func (nps *NewsPushService) recordPushResult(message *models.PushMessage, succes
 	}
 
 	// 记录推送日志
-	nps.logger.Info("推送完成 - 消息ID: %s, 成功数: %d, 错误: %v",
+	log.Printf("推送完成 - 消息ID: %s, 成功数: %d, 错误: %v",
 		message.ID, successCount, err)
 }
 
@@ -823,7 +876,7 @@ func (nps *NewsPushService) cleanupInactiveConnections() {
 	for userID, conn := range nps.connections {
 		if !conn.IsActive || now.Sub(conn.LastSeenAt) > inactiveThreshold {
 			delete(nps.connections, userID)
-			nps.logger.Info("清理非活跃连接: %s", userID)
+			log.Printf("清理非活跃连接: %s", userID)
 		}
 	}
 }

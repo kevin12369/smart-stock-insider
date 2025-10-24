@@ -12,12 +12,10 @@ import {
   Typography,
   Tag,
   Statistic,
-  List,
   Alert,
   Modal,
   Checkbox,
-  Divider,
-  Tooltip
+  Divider
 } from 'antd'
 import {
   SyncOutlined,
@@ -27,7 +25,6 @@ import {
   ExclamationCircleOutlined,
   ReloadOutlined,
   PlayCircleOutlined,
-  PauseCircleOutlined,
   SettingOutlined,
   InfoCircleOutlined
 } from '@ant-design/icons'
@@ -257,14 +254,14 @@ const DataSyncPage: React.FC = () => {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      render: (status) => {
-        const statusConfig = {
+      render: (status: string) => {
+        const statusConfig: { [key: string]: { color: string; icon: React.ReactNode; text: string } } = {
           success: { color: 'green', icon: <CheckCircleOutlined />, text: '成功' },
           failed: { color: 'red', icon: <ExclamationCircleOutlined />, text: '失败' },
           pending: { color: 'blue', icon: <SyncOutlined spin />, text: '处理中' }
         }
 
-        const config = statusConfig[status]
+        const config = statusConfig[status] || statusConfig.pending
         return (
           <Tag color={config.color} icon={config.icon}>
             {config.text}

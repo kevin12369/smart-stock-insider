@@ -8,7 +8,6 @@ import {
   Space,
   Input,
   Select,
-  DatePicker,
   message,
   Typography,
   Tag,
@@ -17,8 +16,6 @@ import {
   Alert,
   List,
   Modal,
-  Tabs,
-  Tooltip,
   Badge
 } from 'antd'
 import {
@@ -31,15 +28,12 @@ import {
   EyeOutlined,
   BugOutlined,
   AlertOutlined,
-  DashboardOutlined,
-  LineChartOutlined
+  DashboardOutlined
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
-import dayjs, { Dayjs } from 'antd-picker-dayjs'
 import apiService from '../services/api'
 
-const { Title, Text, Paragraph } = Typography
-const { TabPane } = Tabs
+const { Title, Text } = Typography
 const { Option } = Select
 
 interface QualityIssue {

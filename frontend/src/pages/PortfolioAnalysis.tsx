@@ -11,11 +11,12 @@ import {
   Tag,
   Select,
   DatePicker,
+  Progress,
+  List,
   message
 } from 'antd'
 import {
   TrophyOutlined,
-  DollarOutlined,
   RiseOutlined,
   FallOutlined,
   LineChartOutlined,
@@ -24,7 +25,6 @@ import {
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs, { Dayjs } from 'dayjs'
-import apiService from '../services/api'
 
 const { Title, Text } = Typography
 const { Option } = Select
@@ -334,7 +334,11 @@ const PortfolioAnalysis: React.FC = () => {
               <Text strong>分析时间</Text>
               <RangePicker
                 value={dateRange}
-                onChange={setDateRange}
+                onChange={(dates) => {
+  if (dates && dates[0] && dates[1]) {
+    setDateRange([dates[0], dates[1]])
+  }
+}}
                 style={{ width: '100%' }}
               />
             </Space>
@@ -480,7 +484,7 @@ const PortfolioAnalysis: React.FC = () => {
               dataSource={analysisData.allocation.concentration.top_positions}
               pagination={false}
               size="small"
-              title="前十大持仓"
+              title={() => <span>前十大持仓</span>}
             />
             <div style={{ marginTop: '16px' }}>
               <Text strong>分散化评分: </Text>

@@ -411,7 +411,7 @@ class ApiService {
         }
 
       case 'GetExternalDailyData':
-        const [dailyCode, startDate, endDate, dailyLimit] = args
+        const [dailyCode, , , dailyLimit] = args
         const mockDailyData = Array.from({ length: Math.min(dailyLimit, 100) }, (_, i) => ({
           code: dailyCode,
           date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
@@ -516,7 +516,7 @@ class ApiService {
         }
 
       case 'ImportData':
-        const [filePath, dataType] = args
+        const [,] = args
         const mockTotalRecords = Math.floor(Math.random() * 5000) + 500
         const mockSuccessCount = Math.floor(mockTotalRecords * 0.9)
         const mockErrorCount = Math.floor(mockTotalRecords * 0.05)
@@ -570,13 +570,13 @@ class ApiService {
           message: '获取模板成功',
           data: {
             template: templateContent,
-            filename: `${tempDataType}_template.${tempFormat}`
+            filename: `${templateType}_template.${templateFormat}`
           },
           time: new Date().toLocaleString()
         }
 
       case 'BatchExportStocks':
-        const [codes, exportStartDate, exportEndDate, exportFormat] = args
+        const [, , , exportFormat] = args
         return {
           success: true,
           message: '批量导出成功',
@@ -640,7 +640,7 @@ class ApiService {
         }
 
       case 'DetectAnomalies':
-        const [anomalyStockCode, anomalyDays] = args
+        const [anomalyStockCode] = args
         const anomalyCount = Math.floor(Math.random() * 5)
         const mockAnomalies = Array.from({ length: anomalyCount }, (_, i) => ({
           stock_code: anomalyStockCode,
@@ -663,7 +663,7 @@ class ApiService {
       case 'BatchDetectAnomalies':
         const [batchCodes, days] = args
         const stockList = batchCodes.split(',')
-        const batchAnomalies = {}
+        const batchAnomalies: { [key: string]: any[] } = {}
 
         stockList.forEach((code: string) => {
           const codeAnomalies = Array.from({ length: Math.floor(Math.random() * 3) }, (_, i) => ({
