@@ -1,0 +1,48 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "smart-stock-insider",
+  "outputfilename": "smart-stock-insider",
+  "frontend": {
+    "dir": "./frontend",
+    "install": "npm install",
+    "build": "npm run build",
+    "dev": "npm run dev",
+    "package": {
+      "manager": "npm"
+    }
+  },
+  "backend": {
+    "dir": "./",
+    "go": {
+      "main": "./main.go",
+      "ldflags": "-s -w"
+    }
+  },
+  "author": {
+    "name": "Kevin",
+    "email": "kevin@example.com"
+  },
+  "info": {
+    "companyName": "SmartStock Insider",
+    "productName": "智股通",
+    "productVersion": "1.0.0",
+    "copyright": "Copyright © 2025 SmartStock Insider",
+    "comments": "智能投研平台"
+  },
+  "nsisType": "multiple",
+  "obfuscated": false,
+  "garbleargs": "",
+  "upx": false,
+  "upxflags": "",
+  "runNonNativeBuildHooks": false,
+  "buildTags": "",
+  "windowStartState": "normal",
+  "assetdir": "./frontend/dist",
+  "reloaddirs": "./frontend",
+  "builddir": "./build",
+  "devServer": "http://localhost:5173",
+  "frontendDevServerURL": "http://localhost:5173",
+  "frontendDevServerTimeout": "10s",
+  "garbleIgnoreInit": true,
+  "frontendBuilder": "vite"
+}

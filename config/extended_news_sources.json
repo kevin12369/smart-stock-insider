@@ -1,0 +1,157 @@
+{
+  "version": "1.0",
+  "auto_refresh": true,
+  "refresh_interval": 300,
+  "max_sources": 10,
+  "aggregation_enabled": true,
+  "deduplication_threshold": 0.85,
+  "clustering_enabled": true,
+  "sources": {
+    "sina": {
+      "id": "sina",
+      "name": "新浪财经",
+      "base_url": "https://finance.sina.com.cn",
+      "enabled": true,
+      "rate_limit": 120,
+      "priority": 1,
+      "category": "news",
+      "description": "新浪财经新闻API，提供实时财经资讯",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://finance.sina.com.cn/",
+        "Accept": "application/json, text/plain, */*"
+      }
+    },
+    "tencent": {
+      "id": "tencent",
+      "name": "腾讯财经",
+      "base_url": "https://finance.qq.com",
+      "enabled": true,
+      "rate_limit": 100,
+      "priority": 2,
+      "category": "news",
+      "description": "腾讯财经新闻API，提供专业的财经新闻报道",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://finance.qq.com/",
+        "Accept": "application/json"
+      }
+    },
+    "xueqiu": {
+      "id": "xueqiu",
+      "name": "雪球",
+      "base_url": "https://xueqiu.com",
+      "enabled": true,
+      "rate_limit": 60,
+      "priority": 3,
+      "category": "social",
+      "description": "雪球社区动态，提供投资者讨论和观点",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://xueqiu.com/",
+        "Accept": "application/json, text/plain, */*"
+      }
+    },
+    "hexun": {
+      "id": "hexun",
+      "name": "和讯网",
+      "base_url": "https://news.hexun.com",
+      "enabled": true,
+      "rate_limit": 80,
+      "priority": 4,
+      "category": "professional",
+      "description": "和讯网专业财经新闻，提供深度分析报道",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://www.hexun.com/",
+        "Accept": "application/json"
+      }
+    },
+    "caixin": {
+      "id": "caixin",
+      "name": "财新网",
+      "base_url": "https://www.caixin.com",
+      "enabled": false,
+      "rate_limit": 40,
+      "priority": 1,
+      "category": "professional",
+      "description": "财新网深度财经报道，需要API密钥",
+      "note": "需要API授权才能使用",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://www.caixin.com/",
+        "Accept": "application/json"
+      }
+    },
+    "wallstreetcn": {
+      "id": "wallstreetcn",
+      "name": "华尔街见闻",
+      "base_url": "https://wallstreetcn.com",
+      "enabled": false,
+      "rate_limit": 60,
+      "priority": 2,
+      "category": "professional",
+      "description": "华尔街见闻实时资讯，需要API密钥",
+      "note": "需要API授权才能使用",
+      "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://wallstreetcn.com/",
+        "Accept": "application/json"
+      }
+    }
+  },
+  "aggregation_rules": {
+    "duplicate_detection": {
+      "enabled": true,
+      "similarity_threshold": 0.85,
+      "fields": ["title", "summary"],
+      "action": "keep_highest_priority"
+    },
+    "content_clustering": {
+      "enabled": true,
+      "similarity_threshold": 0.70,
+      "time_window": "2h",
+      "min_cluster_size": 2,
+      "max_cluster_size": 10
+    },
+    "trending_detection": {
+      "enabled": true,
+      "min_articles": 3,
+      "time_window": "2h",
+      "keyword_threshold": 2
+    }
+  },
+  "quality_scoring": {
+    "source_reliability": {
+      "eastmoney": 0.9,
+      "tonghuashun": 0.85,
+      "sina": 0.8,
+      "tencent": 0.8,
+      "xueqiu": 0.7,
+      "hexun": 0.75,
+      "caixin": 0.95,
+      "wallstreetcn": 0.9
+    },
+    "content_freshness": {
+      "max_age_hours": 24,
+      "freshness_weight": 0.3
+    },
+    "relevance_scoring": {
+      "title_weight": 0.5,
+      "content_weight": 0.3,
+      "tag_weight": 0.2
+    }
+  },
+  "caching": {
+    "enabled": true,
+    "cache_duration_minutes": 15,
+    "max_cache_items": 1000,
+    "cache_cleanup_interval": "1h"
+  },
+  "performance": {
+    "max_concurrent_requests": 5,
+    "request_timeout_seconds": 30,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 1
+  }
+}
