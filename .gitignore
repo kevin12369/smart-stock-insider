@@ -1,101 +1,199 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
+# 新项目架构忽略文件
+# Python虚拟环境
+venv/
+env/
+ENV/
+.venv/
+
+# Python包管理
+Pipfile.lock
+.python-version
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Python相关
+__pycache__/
+*.py[cod]
+*$py.class
 *.so
-*.dylib
-smart-stock-insider.exe
-
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go build tool.
-*.out
+.Python
 build/
+develop-eggs/
 dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.tox/
+.nox/
+.coverage
+.pytest_cache/
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
 
-# Go workspace file
-go.work
+# SageMath
+*.sage.py
 
-# Dependency directories
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# Pyre
+.pyre/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# 微服务相关
+backend/data/
+backend/logs/
+backend/backups/
+backend/certs/
+backend/uploads/
+backend/reports/
+
+# Tauri构建文件
+frontend/src-tauri/target/
+Cargo.lock
+
+# 配置文件（包含敏感信息）
+config/local.json
+config/production.json
+secrets.json
+
+# Node.js依赖
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Log files
-*.log
-logs/
+# 构建输出
+dist/
+dist-ssr/
+build/
+target/
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output
-
-# Dependency directories
-jspm_packages/
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
+# 缓存目录
+.cache/
+.parcel-cache/
+.vite/
 .eslintcache
+.stylelintcache
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
+# 环境变量
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
+# 日志文件
+*.log
+logs/
 
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary folders
+# 临时文件
 tmp/
 temp/
+.tmp/
+*.tmp
+*.temp
 
-# Editor directories and files
+# 测试覆盖率
+coverage/
+*.lcov
+
+# 运行时数据
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# TypeScript
+*.tsbuildinfo
+
+# 编辑器文件
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 数据备份
+backups/
+*.backup
+*.bak
+
+# 缓存目录
+cache/
+.redis/
+
+# 证书文件
+*.pem
+*.key
+*.crt
+*.p12
+
+# 性能分析
+*.prof
+*.pprof
+*.profraw
+
+# 微服务日志
+services/*/logs/
+services/*/data/
+services/*/cache/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore
+
+# Storybook
+storybook-static/
+
+# Tauri
+src-tauri/target
+src-tauri/Cargo.lock
+
+# IDE specific
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/
+*.iml
 
 # OS generated files
 .DS_Store
@@ -106,42 +204,149 @@ temp/
 ehthumbs.db
 Thumbs.db
 
-# Wails specific
-wails.json~
+# Application specific
+data/
+logs/
+cache/
+uploads/
+certs/
+reports/
 
-# Database files
+# Auto generated files
+auto-imports.d.ts
+components.d.ts
+
+# 智股通项目特定过滤
+# ===================
+
+# 测试相关
+tests/results/
+tests/reports/*.html
+tests/reports/*.json
+tests/reports/*.csv
+tests/performance/results/
+tests/performance/reports/
+tests/e2e/test-results/
+tests/e2e/playwright-report/
+tests/e2e/.playwright/
+performance_tests.log
+locust_performance.log
+
+# AI模型和数据文件
+models/
+*.pkl
+*.joblib
+*.h5
+*.pb
+*.onnx
+*.model
+data/datasets/
+data/raw/
+data/processed/
+data/cache/
+ai_cache/
+model_cache/
+
+# 股票数据缓存
+stock_data/
+market_data/
+cache/stocks/
+cache/market/
+cache/analysis/
+*.csv.gz
+*.parquet
+*.feather
+
+# 用户数据（保护隐私）
+user_data/
+user_preferences/
+portfolios/
+watchlists/
+user_profiles/
+analytics_data/
+
+# 配置文件（包含敏感信息）
+config/local.json
+config/staging.json
+config/production.json
+config/secrets/
+config/api_keys/
+config/database/
+.env.*
+!.env.example
+
+# 日志文件（详细过滤）
+logs/
+*.log
+log/
+logs/*/
+logs/*.log
+logs/*.out
+logs/*.err
+access.log
+error.log
+debug.log
+application.log
+server.log
+client.log
+performance.log
+security.log
+audit.log
+
+# 临时和缓存文件
+temp/
+tmp/
+.cache/
+.cache/*/
+__pycache__/
+__pycache__/*/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.venv/
+venv/
+env/
+
+# 数据库相关
 *.db
 *.sqlite
 *.sqlite3
-data/smart_stock.db
+*.db-shm
+*.db-wal
+database/
+data/databases/
+backups/database/
 
-# Local configuration
-config.local.json
-.env.local
+# 构建和部署
+dist/
+build/
+target/
+out/
+.next/
+.nuxt/
+.terraform/
+.ansible/
 
-# Build artifacts
-/bin/
-/pkg/
-/wailsjs/
+# 文档生成
+docs/generated/
+docs/_build/
+docs/.doctrees/
+site/
+public/
 
-# Go module cache
-go.sum
+# IDE和编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
 
-# Frontend specific
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
-
-# Data files
-data/
-*.csv
-*.json.bak
-
-# Logs
-logs/
-*.log
-
-# OS specific
+# 系统文件
 .DS_Store
 .DS_Store?
 ._*
@@ -149,101 +354,122 @@ logs/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# 网络和服务
+network_configs/
+service_configs/
+docker-compose.override.yml
+docker-compose.prod.yml
+docker-compose.dev.yml
 
-# Python files (for AI services)
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-.eggs/
-.tox/
-.coverage
-.coverage.*
-.cache
-.pytest_cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache
-.cover
-.cover.*
-.mypy_cache
-.dmypy.json
-dmypy.json
+# 监控和分析
+monitoring/
+metrics/
+traces/
+*.prof
+*.pprof
+*.heap
 
-# Temporary files
-*.tmp
-*.temp
+# 证书和密钥
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+private_keys/
+certificates/
+ssl/
+
+# 第三方服务
+third_party/
+external_services/
+vendor/
+
+# 备份文件
+backup/
+backups/
+*.backup
 *.bak
 *.old
 *.orig
 *.rej
-~*
 
-# Local data (should be preserved in user's system)
-# Uncomment if you want to ignore user data
-# data/*.db
-# data/*.sqlite
-# data/*.sqlite3
-# config.local.json
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
 
-# Test data
+# 大文件（Git LFS应处理）
+*.iso
+*.dmg
+*.pkg
+*.exe
+*.msi
+*.bin
+*.dat
+
+# 开发工具
+.eslintcache
+.stylelintcache
+.parcel-cache/
+.vite/
+.tsbuildinfo
+
+# 浏览器
+.nyc_output
+coverage/
+*.lcov
+
+# 云服务
+.aws/
+.azure/
+.gcp/
+.firebase/
+
+# 本地配置覆盖
+config.local.*
+settings.local.*
+docker-compose.local.*
+
+# 性能测试临时文件
+locust_reports/
+performance_results/
+load_test_results/
+
+# E2E测试临时文件
 test-results/
-test-output/
-test-data/
-benchmarks/
-*.prof
-*.pprof
-*.test
-*.prof
+playwright-report/
+test-artifacts/
+screenshots/
+videos/
 
-# Build outputs
-wailsjs/
-*.wailsjs.json
+# 文档构建
+docs/build/
+docs/dist/
+docs/.vitepress/dist/
 
-# Documentation files (keep core docs, ignore detailed ones)
-CLAUDE.md
-# 产品设计文档.md
-数据库使用指南.md
+# API文档生成
+api_docs/
+swagger_generated/
+openapi_generated/
 
-# Project demonstration files (keep for reference)
-打包规范说明.md
-# 智股通项目演示.md
-# 技术架构文档.md
-# 项目总结报告.md
+# 数据可视化
+charts/
+graphs/
+plots/
+*.png.temp
+*.svg.temp
 
-# Build configuration files
-# build-config.md
+# 机器学习训练
+training_data/
+model_checkpoints/
+tensorboard_logs/
+wandb/
 
-# Release files
-ssi-*.exe
-ssi-*.exe.sha256
-*.installer
-
-# Additional project specific files
-*.backup
-*.download
-*.cache
-*.tempdata
-*.user-config
-
-# Performance profiling files
-*.cpu
-*.mem
-*.profraw
-
-# Debug files
-debug.log
-trace.log
-debug.txt
+# 实时数据流
+stream_data/
+real_time_data/
+websocket_logs/

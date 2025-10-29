@@ -1,0 +1,69 @@
+# 依赖目录
+node_modules/
+.pnpm-store/
+
+# 构建输出
+dist/
+build/
+target/
+
+# 缓存目录
+.cache/
+.parcel-cache/
+.tmp/
+.vite/
+
+# 配置文件
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# 日志文件
+*.log
+logs/
+
+# 环境文件
+.env*
+!.env.example
+
+# 测试覆盖率
+coverage/
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+
+# 文档文件
+*.md
+
+# 图标和图片
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+
+# 字体文件
+*.woff
+*.woff2
+*.eot
+*.ttf
+
+# Tauri相关
+src-tauri/target/
+
+# 自动生成的文件
+auto-imports.d.ts
+components.d.ts

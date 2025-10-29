@@ -1,200 +1,129 @@
-import React, { useEffect, useState } from 'react'
-import { Layout, Typography, Button, Space, message, ConfigProvider, Menu } from 'antd'
-import zhCN from 'antd/locale/zh_CN'
-import 'dayjs/locale/zh-cn'
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Layout, Menu, Button, Avatar, Typography, theme } from 'antd'
 import {
   DashboardOutlined,
-  PieChartOutlined,
-  NotificationOutlined,
+  BarChartOutlined,
+  RobotOutlined,
   SettingOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined
+  UserOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
 } from '@ant-design/icons'
-import { createLazyComponent, preloadCriticalRoutes } from './utils/lazyLoad'
-import './styles/index.css'
 
-// 懒加载组件
-const Dashboard = createLazyComponent(() => import('./pages/Dashboard'))
-const EnhancedDashboard = createLazyComponent(() => import('./pages/EnhancedDashboard'), true) // 预加载
-const PortfolioManager = createLazyComponent(() => import('./pages/PortfolioManager'))
-const PortfolioAnalysis = createLazyComponent(() => import('./pages/PortfolioAnalysis'))
-const NewsHub = createLazyComponent(() => import('./pages/NewsHub'))
-const PushNotification = createLazyComponent(() => import('./pages/PushNotification'))
+// 页面组件 - 使用实际存在的组件
+import Dashboard from './pages/Dashboard'
+import AIAnalysis from './pages/AIAnalysis'
 
-const { Header, Content, Sider } = Layout
+const { Header, Sider, Content } = Layout
 const { Title } = Typography
 
-// 菜单项配置
+// 菜单配置
 const menuItems = [
   {
     key: '/dashboard',
     icon: <DashboardOutlined />,
-    label: '仪表盘'
+    label: '仪表板',
   },
   {
-    key: '/enhanced-dashboard',
-    icon: <DashboardOutlined />,
-    label: '智能控制台'
+    key: '/ai-analysis',
+    icon: <RobotOutlined />,
+    label: 'AI分析',
   },
-  {
-    key: '/portfolio',
-    icon: <PieChartOutlined />,
-    label: '投资组合'
-  },
-  {
-    key: '/portfolio-analysis',
-    icon: <PieChartOutlined />,
-    label: '组合分析'
-  },
-  {
-    key: '/news',
-    icon: <NotificationOutlined />,
-    label: '新闻中心'
-  },
-  {
-    key: '/push',
-    icon: <NotificationOutlined />,
-    label: '推送通知'
-  },
-  {
-    key: '/settings',
-    icon: <SettingOutlined />,
-    label: '系统设置'
-  }
 ]
 
-// 内部组件：Main App Content
-const MainContent: React.FC = () => {
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const initApp = async () => {
-      try {
-        // 预加载关键路由
-        preloadCriticalRoutes()
-
-        message.success('欢迎使用智股通 - 智能量化投研平台')
-      } catch (error) {
-        console.error('Failed to initialize app:', error)
-        message.error('应用初始化失败')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    initApp()
-  }, [])
-
-  if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '18px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white'
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '24px', marginBottom: '16px' }}>智股通</div>
-          <div>正在启动应用...</div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <Layout style={{ height: '100vh' }}>
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/enhanced-dashboard" element={<EnhancedDashboard />} />
-        <Route path="/portfolio" element={<PortfolioManager />} />
-        <Route path="/portfolio-analysis" element={<PortfolioAnalysis />} />
-        <Route path="/news" element={<NewsHub />} />
-        <Route path="/push" element={<PushNotification />} />
-        <Route path="/" element={<EnhancedDashboard />} />
-      </Routes>
-    </Layout>
-  )
-}
-
-// 布局组件
-const AppLayout: React.FC = () => {
+const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const navigate = useNavigate()
   const location = useLocation()
-
-  const handleMenuClick = ({ key }: { key: string }) => {
-    navigate(key)
-  }
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken()
 
   return (
-    <Layout style={{ height: '100vh' }}>
-      <Header style={{
-        background: '#fff',
-        padding: '0 24px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        style={{
+          background: colorBgContainer,
+          borderRight: '1px solid #f0f0f0'
+        }}
+      >
+        <div style={{
+          height: 64,
+          padding: '16px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: collapsed ? 'center' : 'flex-start'
+        }}>
+          <RobotOutlined style={{ fontSize: '24px', color: '#1890ff' }} />
+          {!collapsed && (
+            <Title level={4} style={{ margin: '0 0 0 8px', color: '#1890ff' }}>
+              智股通
+            </Title>
+          )}
+        </div>
+        <Menu
+          theme="light"
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          style={{ borderRight: 0 }}
+        />
+      </Sider>
+
+      <Layout>
+        <Header
+          style={{
+            padding: '0 16px',
+            background: colorBgContainer,
+            borderBottom: '1px solid #f0f0f0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ marginRight: '16px' }}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
           />
-          <Title level={3} style={{ margin: 0, color: '#1890ff' }}>
-            智股通 - 智能量化投研平台
-          </Title>
-        </div>
-        <Space>
-          <span>v1.0.0</span>
-          <Button type="primary" size="small">
-            设置
-          </Button>
-        </Space>
-      </Header>
 
-      <Layout>
-        <Sider
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Avatar icon={<UserOutlined />} />
+          </div>
+        </Header>
+
+        <Content
           style={{
-            background: '#fff',
-            borderRight: '1px solid #f0f0f0'
+            margin: '16px',
+            padding: 24,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+            minHeight: 280,
+            overflow: 'auto'
           }}
-          width={200}
         >
-          <Menu
-            mode="inline"
-            selectedKeys={[location.pathname]}
-            items={menuItems}
-            onClick={handleMenuClick}
-            style={{ height: '100%', borderRight: 0 }}
-          />
-        </Sider>
+          <Routes>
+            {/* 默认重定向到仪表板 */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-        <Content style={{ padding: 0, background: '#f5f5f5', overflow: 'auto' }}>
-          <MainContent />
+            {/* 主要功能页面 */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/ai-analysis" element={<AIAnalysis />} />
+
+            {/* 404页面 */}
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
         </Content>
       </Layout>
     </Layout>
-  )
-}
-
-// 主App组件
-const App: React.FC = () => {
-  return (
-    <ConfigProvider locale={zhCN}>
-      <Router>
-        <AppLayout />
-      </Router>
-    </ConfigProvider>
   )
 }
 

@@ -1,0 +1,65 @@
+{
+  "name": "smart-stock-insider",
+  "version": "1.0.0",
+  "description": "基于AI的桌面投资研究平台，专为个人量化投资者设计",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run tauri dev",
+    "dev:backend": "cd backend && python main.py",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:frontend": "cd frontend && npm run tauri build",
+    "build:backend": "cd backend && python -m py_compile main.py",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && pytest",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && flake8 .",
+    "format": "npm run format:frontend && npm run format:backend",
+    "format:frontend": "cd frontend && npm run format",
+    "format:backend": "cd backend && black .",
+    "clean": "rimraf dist node_modules/.cache frontend/target",
+    "setup": "npm run setup:python && npm run setup:frontend",
+    "setup:python": "python scripts/setup_python_env.py",
+    "setup:frontend": "cd frontend && npm install",
+    "setup:backend": "cd backend && pip install -r requirements-312.txt",
+    "verify": "python scripts/verify_environment.py",
+    "env:check": "python scripts/verify_environment.py",
+    "env:setup": "python scripts/setup_python_env.py",
+    "docker:build": "docker build -t smart-stock-insider .",
+    "docker:run": "docker run -p 3000:3000 -p 8000:8000 smart-stock-insider"
+  },
+  "keywords": [
+    "stock",
+    "investment",
+    "ai",
+    "quantitative",
+    "desktop",
+    "tauri",
+    "python",
+    "fastapi"
+  ],
+  "author": "Smart Stock Insider Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.11",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/smart-stock-insider.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/smart-stock-insider/issues"
+  },
+  "homepage": "https://github.com/your-username/smart-stock-insider#readme"
+}
